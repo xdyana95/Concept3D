@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 
+// todo: move to database
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -38,9 +40,21 @@ app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
 });
 
-// app.post('/newLocation', (req, res) => {
-//   console.log(req.body);
-// });
+app.post('/locations', (req, res) => {
+
+  const lat = Number(req.body.lat);
+  const lng = Number(req.body.lng);
+
+  const newObj = {
+    id: app.locals.idIndex + 1,
+    name: req.body.name,
+    lat: lat,
+    lng: lng,
+  };
+  app.locals.locations = [...app.locals.locations, newObj];
+  app.locals.idIndex++;
+  res.status(200).send(newObj);
+});
 
 const portNumber = process.env.PORT || 3001;
 
