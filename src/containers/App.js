@@ -6,9 +6,7 @@ import App from '../components/App';
 
 const mapStateToProps = state => {
   return { 
-    locations: state.Locations.data, 
-    openModal: state.Locations.openModal,
-    center: state.Locations.center,
+    openModal: state.Validations.openModal,
   };
 };
 

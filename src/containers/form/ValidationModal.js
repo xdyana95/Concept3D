@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
-import ValidationModal from '../components/ValidationModal'
+import ValidationModal from '../../components/form/ValidationModal'
 import { bindActionCreators } from 'redux';
-import { toggleValidationModal } from '../actions/locationActions';
+import { toggleValidationModal } from '../../actions/validationActions';
 
 const mapStateToProps = (state) => {
-  return { errors: state.Locations.errors };
+  return { errors: state.Validations.errors };
 };
 
 const mapDispatchToProps = (dispatch) => {

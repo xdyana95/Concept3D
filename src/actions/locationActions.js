@@ -46,10 +46,3 @@ export const saveLocation = (data) => {
       });
   };
 };
-
-export const toggleValidationModal = (errors) => {
-  console.log('errors: ', errors)
-  return (dispatch) => {
-    return dispatch({ type: 'SHOW_MODAL', data: errors })
-  }
-}

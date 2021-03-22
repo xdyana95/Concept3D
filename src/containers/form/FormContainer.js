@@ -1,10 +1,11 @@
 import { connect } from 'react-redux'
-import Form from '../components/Form'
+import Form from '../../components/form/Form'
 import { bindActionCreators } from 'redux';
-import { saveLocation, toggleValidationModal } from '../actions/locationActions';
+import { saveLocation } from '../../actions/locationActions';
+import { toggleValidationModal } from '../../actions/validationActions';
 
 const mapStateToProps = (state) => {
-  return { openModal: state.Locations.openModal };
+  return { openModal: state.Validations.openModal };
 };
 
 const mapDispatchToProps = (dispatch) => {

@@ -3,7 +3,7 @@ import MapMarker from './Marker';
 
 const AllMarkers = (props) => {
 
-    const { locations } = props;
+    const { locations, polygon, addPolygonPosition, removePolygonPosition } = props;
 
     const markerArray = locations.map((marker, i) => {
       return (
@@ -11,6 +11,9 @@ const AllMarkers = (props) => {
           key={i}
           location={[+marker.lat, +marker.lng]}
           name={marker.name}
+          addPolygonPosition={addPolygonPosition}
+          removePolygonPosition={removePolygonPosition}
+          polygon={polygon}
         />
       );
     });

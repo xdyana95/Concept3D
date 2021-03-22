@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import LeafletMap from './LeafletMap';
-import FormContainer from '../containers/FormContainer';
-import ValidationModal from '../containers/ValidationModal';
+import LeafletMap from './map/LeafletMap';
+import FormContainer from '../containers/form/FormContainer';
+import ValidationModal from '../containers/form/ValidationModal';
 
 const App = (props) => {
 
@@ -13,9 +13,9 @@ const App = (props) => {
       <div className="App">
         {props.openModal && <ValidationModal />}
         <FormContainer />
-        <LeafletMap locations={props.locations} center={props.center}/>
+        <LeafletMap/>
       </div>
   );
 }
 
-export default App;
+export default React.memo(App);

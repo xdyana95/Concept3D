@@ -64,3 +64,8 @@ input {
   font-size: .8em;
   margin: 5%;
 }
+
+.validation-modal-title {
+  margin: 1%;
+  border-bottom: 1px solid gray;
+}
