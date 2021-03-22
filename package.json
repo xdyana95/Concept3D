@@ -28,8 +28,9 @@
   "scripts": {
     "dev": "nodemon server/server.js",
     "start": "react-scripts start",
-    "build": "react-scripts jestripts test --env=jsdom",
-    "test": "react-scripts test --env=jsdom"
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
   },
   "browserslist": [
     ">0.2%",
