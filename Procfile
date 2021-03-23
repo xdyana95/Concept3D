@@ -1,2 +1,2 @@
-server: npm dev
+server: nodemon server/server.js
 client: npm start
