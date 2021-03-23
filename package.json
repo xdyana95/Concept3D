@@ -23,7 +23,7 @@
     "eslint-config-airbnb": "17.1.0",
     "eslint-plugin-jsx-a11y": "6.1.2",
     "eslint-plugin-react": "^7.0.1",
-    "nodemon": "^1.18.9",
+    "nodemon": "^1.18.9"
   },
   "scripts": {
     "dev": "nodemon server/server.js",
