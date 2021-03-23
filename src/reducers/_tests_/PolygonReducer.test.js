@@ -3,11 +3,9 @@ import Polygon from '../PolygonReducer';
 describe('polygon reducer', () => {
 
     it('should return initial state', () => {
-        expect(Polygon(undefined, {})).toEqual(
-            {
-                polygon: []
-            }
-        )
+        expect(Polygon(undefined, {})).toEqual({
+            polygon: []
+        })
     })
 
     it('properly handles ADD_POLYGON_POSITION', () => {

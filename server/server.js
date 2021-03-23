@@ -2,58 +2,68 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
-
-// todo: move to database
+const AWS = require("aws-sdk");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const initialLocations = [
-  {
-    id: 'id1',
-    name: 'Denver',
-    lat: 39.742043,
-    lng: -104.991531,
-  },
-  {
-    id: 'id2',
-    name: 'LA',
-    lat: 34.052235,
-    lng: -118.243683,
-  },
-  {
-    id: 'id3',
-    name: 'Boston',
-    lat: 42.364506,
-    lng: -71.038887,
-  },
-];
+AWS.config.update({
+  region: "us-west-2",
+  endpoint: "http://localhost:8000"
+});
 
-app.locals.idIndex = 3;
-app.locals.locations = initialLocations;
+const docClient = new AWS.DynamoDB.DocumentClient();
 
-app.get('/locations', (req, res) => res.send({ locations: app.locals.locations }));
-
-app.use(express.static(path.resolve(__dirname, '..', 'build')));
-
-app.get('/', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+app.get('/locations', (req, res) => {
+  const params = {
+    TableName: "Markers",
+    ProjectionExpression: "#id, #name, #lat, #lng",
+    ExpressionAttributeNames: {
+        "#id": "id",
+        "#name": "name",
+        "#lat": "lat",
+        "#lng": "lng",
+    }
+  };
+  docClient.scan(params, (err, data) => {
+    if (err) {
+      console.error("Unable to read marker table ", JSON.stringify(err, null, 2));
+    } else {
+      return res.send({ locations: data.Items })
+    }
+  });
 });
 
 app.post('/locations', (req, res) => {
 
   const lat = Number(req.body.lat);
   const lng = Number(req.body.lng);
-
-  const newObj = {
-    id: app.locals.idIndex + 1,
-    name: req.body.name,
-    lat: lat,
-    lng: lng,
+  
+// todo: find better solution for creating new primary key
+  const newMarker = {
+    TableName: 'Markers',
+    Item: {
+      id: Math.random(),
+      name: req.body.name,
+      lat: lat,
+      lng: lng,
+    }
   };
-  app.locals.locations = [...app.locals.locations, newObj];
-  app.locals.idIndex++;
-  res.status(200).send(newObj);
+
+  docClient.put(newMarker, (err, data) => {
+    if (err) {
+      console.error("Error creating new marker:  ", JSON.stringify(err, null, 2)) ;
+    } else {
+      console.log("New marker save success:  ", JSON.stringify(data, null, 2));
+    }
+  });
+  res.status(200).send(newMarker.Item);
+});
+
+app.use(express.static(path.resolve(__dirname, '..', 'build')));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
 });
 
 const portNumber = process.env.PORT || 3001;
